@@ -35,15 +35,15 @@ section .text
 
 ; bx = segment to dump.
 .dumpLine:
-    push bx
-    mov ax ,bx
-    lea di ,[printBuffer]
-    call stringUWordToHexa
-    lea si ,[printBuffer]
-    call printAsciiZ
-    mov si ,dumpLineColon
-    call printAsciiZ
-    mov word [byteIndex], 0
+    push bx                     ; save the value bx in the stack
+    mov ax ,bx                  ; copy the value of bx in ax
+    lea di ,[printBuffer]       ; load the address of the printer buffer into di
+    call stringUWordToHexa      ; call a subrotine to converth the word in ax to a hexadecimal string
+    lea si ,[printBuffer]       ; Load the address od the printer buffer into si
+    call printAsciiZ            ; call a subroutine to print the non-terminated ASCII string at si
+    mov si ,dumpLineColon       ; Load the address of dumpLineColon into si
+    call printAsciiZ            ; Call a subroutine to print the null-terminated ASCII string at si
+    mov word [byteIndex], 0     ; Set the value at the memory location byteIndex to 0
 .eachByte:
     call printSpace
     mov bx ,sp
